@@ -1,0 +1,13 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: product-np-service
+spec:
+  type: NodePort
+  selector:
+    app: product-service
+  ports:
+    - name: product-service
+      protocol: TCP
+      port: 80
+      targetPort: 80
