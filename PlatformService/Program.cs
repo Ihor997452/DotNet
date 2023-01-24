@@ -1,5 +1,6 @@
 using DotNet.PlatformService.AsyncDataServices;
 using DotNet.PlatformService.Data;
+using DotNet.PlatformService.SyncDataServices.Grpc;
 using DotNet.PlatformService.SyncDataServices.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ else
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
+builder.Services.AddGrpc();
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -40,6 +42,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<GrpcPlatformService>();
 
 PrepDb.PrepPopulation(app, builder.Environment.IsProduction());
 
